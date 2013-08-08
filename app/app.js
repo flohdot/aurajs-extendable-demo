@@ -1,24 +1,12 @@
 
 require(['bower_components/aura/lib/aura'], function(Aura) {
 
-  var components = [],
-  c = null,
-  data = [
-    { type: 'image', filepath: 'http://i.imgur.com/ujr7OPC.jpg', name: 'corgi' },
-    { type: 'image', filepath: 'http://i.imgur.com/aEjfwGB.jpg', name: 'stretchy kitten'},
-    { type: 'image', filepath: 'http://i.imgur.com/hBtWagP.jpg', name: 'raccoons'}
-  ];
 
-
-  for (var i = 0; i< data.length; i++) {
-    c = { name: data[i].type, options: { el: '#' + data[i].type + i, filepath: data[i].filepath } };
-    console.log(c);
-    components.push(c);
-  }
+  // TODO add an external components source
 
   Aura()
-    .use('extensions/aura-awesome-extension')
-    .start(components).then(function() {
+    .use('extensions/aura-include-extension')
+    .start([{ name: 'container', options: { el: "#container" }}]).then(function() {
       console.warn('Aura started...');
     });
 });

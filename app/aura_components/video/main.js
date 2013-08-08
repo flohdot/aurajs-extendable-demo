@@ -5,20 +5,19 @@ todo:
 
 */
 
-define(['text!./image.html'], function(t) {
+define(['text!./video.html'], function(t) {
   var template = _.template(t);
   return {
     initialize: function() {
-      console.log("init image");
-      this.sandbox.on('play', this.conditionalPlay, this);
+      console.log("init video");
+      this.sandbox.on('play', this.render, this);
+      this.sandbox.on('clear', this.hide, this);
       this.render();
     },
     conditionalPlay: function(index) {
       console.log("conditionalPlay", index);
       if(index == this.options.container_index)
         this.$el.show();
-      else
-        this.$el.hide();
     },
     hide: function() {
       this.$el.hide();
@@ -27,5 +26,6 @@ define(['text!./image.html'], function(t) {
       this.html(template(this.options));
       this.hide();
     }
+
   };
 });

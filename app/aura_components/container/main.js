@@ -44,7 +44,6 @@ define(['text!./container.html'], function(t) {
     },
 
     loop: function() {
-      // while (true) {
 
         console.log("loop", this);
 
@@ -55,7 +54,6 @@ define(['text!./container.html'], function(t) {
         } else {
           this.index++;
         }
-      // }
     },
 
     showNext: function() {
@@ -67,82 +65,6 @@ define(['text!./container.html'], function(t) {
 
 
     // just show for 5 secs and hide
-
-  };
-});
-
-
-
-
-//--------
-
-
-/*
-
-todo:
-- add a css file to style the component
-
-*/
-
-define(['text!./image.html'], function(t) {
-  var template = _.template(t);
-  return {
-    initialize: function() {
-      console.log("init image");
-      this.sandbox.on('play', this.conditionalPlay, this);
-      this.render();
-    },
-    conditionalPlay: function(index) {
-      console.log("conditionalPlay", index);
-      if(index == this.options.container_index)
-        this.$el.show();
-      else
-        this.$el.hide();
-    },
-    hide: function() {
-      this.$el.hide();
-    },
-    render: function() {
-      this.html(template(this.options));
-      this.hide();
-    }
-  };
-});
-
-
-
-
-//--------
-
-
-/*
-
-todo:
-- add a css file to style the component
-
-*/
-
-define(['text!./video.html'], function(t) {
-  var template = _.template(t);
-  return {
-    initialize: function() {
-      console.log("init video");
-      this.sandbox.on('play', this.render, this);
-      this.sandbox.on('clear', this.hide, this);
-      this.render();
-    },
-    conditionalPlay: function(index) {
-      console.log("conditionalPlay", index);
-      if(index == this.options.container_index)
-        this.$el.show();
-    },
-    hide: function() {
-      this.$el.hide();
-    },
-    render: function() {
-      this.html(template(this.options));
-      this.hide();
-    }
 
   };
 });

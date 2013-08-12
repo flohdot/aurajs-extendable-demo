@@ -14,7 +14,7 @@ define(['text!./image.html'], function(t) {
       this.render();
     },
     conditionalPlay: function(index) {
-      console.log("conditionalPlay", index);
+      console.log("conditionalPlay", index, this.options.container_index);
       if(index == this.options.container_index)
         this.$el.show();
       else

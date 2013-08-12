@@ -10,12 +10,13 @@ define(['text!./container.html'], function(t) {
   var template = _.template(t);
   return {
     index : 0,
-      data:  [
-        { type: 'image', filepath: 'http://i.imgur.com/ujr7OPC.jpg', name: 'corgi' },
-        { type: 'image', filepath: 'http://i.imgur.com/aEjfwGB.jpg', name: 'stretchy kitten'},
-        { type: 'image', filepath: 'http://i.imgur.com/hBtWagP.jpg', name: 'raccoons'},
-        { type: 'video', filepath: 'https://v.cdn.vine.co/r/videos/FE64A0BDB6975219026316152832_1a80c7715…UAdnhghKt9VSBcoYgP2.KtKvYYA.mp4?versionId=GJt31Te0ba5Z08_hvjoNlE0Qux.R4KNP', name: 'some dumb vine video' }
-      ],
+    data:  [
+      { type: 'video', filepath: '/assets/green.m4v', name: 'some dumb vine video' },
+      { type: 'image', filepath: 'http://i.imgur.com/ujr7OPC.jpg', name: 'corgi' },
+      { type: 'image', filepath: 'http://i.imgur.com/aEjfwGB.jpg', name: 'stretchy kitten'},
+      { type: 'image', filepath: 'http://i.imgur.com/hBtWagP.jpg', name: 'raccoons'},
+      { type: 'video', filepath: '/assets/blue.m4v', name: 'some dumb vine video' }
+    ],
 
      initialize: function() {
       console.log(_);
@@ -40,22 +41,20 @@ define(['text!./container.html'], function(t) {
 
       var s = this.sandbox.start(children);
       console.log(s, s.children);
-      this.loop();
+      this.showNext();
     },
 
     loop: function() {
-      // while (true) {
 
         console.log("loop", this);
 
-        setTimeout(this.showNext, 3000);
+        setTimeout(this.showNext, 2000);
 
-        if(this.index >= this.data.length) {
-          this.index = 0;
-        } else {
+        if(this.index < this.data.length) {
           this.index++;
+        } else {
+          this.index = 0;
         }
-      // }
     },
 
     showNext: function() {
@@ -93,7 +92,7 @@ define(['text!./image.html'], function(t) {
       this.render();
     },
     conditionalPlay: function(index) {
-      console.log("conditionalPlay", index);
+      console.log("conditionalPlay", index, this.options.container_index);
       if(index == this.options.container_index)
         this.$el.show();
       else
@@ -127,14 +126,21 @@ define(['text!./video.html'], function(t) {
   return {
     initialize: function() {
       console.log("init video");
-      this.sandbox.on('play', this.render, this);
+      this.sandbox.on('play', this.conditionalPlay, this);
       this.sandbox.on('clear', this.hide, this);
       this.render();
     },
     conditionalPlay: function(index) {
-      console.log("conditionalPlay", index);
-      if(index == this.options.container_index)
+      var video = this.$el.find('video').get(0);
+      console.log("conditionalPlay", index, this.options.container_index);
+      if(index == this.options.container_index) {
         this.$el.show();
+        video.play();
+      } else {
+        video.pause();
+        video.currentTime = 0;
+        this.$el.hide();
+      }
     },
     hide: function() {
       this.$el.hide();

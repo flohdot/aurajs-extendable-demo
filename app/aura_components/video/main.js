@@ -10,14 +10,21 @@ define(['text!./video.html'], function(t) {
   return {
     initialize: function() {
       console.log("init video");
-      this.sandbox.on('play', this.render, this);
+      this.sandbox.on('play', this.conditionalPlay, this);
       this.sandbox.on('clear', this.hide, this);
       this.render();
     },
     conditionalPlay: function(index) {
-      console.log("conditionalPlay", index);
-      if(index == this.options.container_index)
+      var video = this.$el.find('video').get(0);
+      console.log("conditionalPlay", index, this.options.container_index);
+      if(index == this.options.container_index) {
         this.$el.show();
+        video.play();
+      } else {
+        video.pause();
+        video.currentTime = 0;
+        this.$el.hide();
+      }
     },
     hide: function() {
       this.$el.hide();
